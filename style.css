@@ -1,0 +1,416 @@
+/* ===================================================
+   style.css — EXTERNAL CSS
+   Symbiosis Admission Registration Form
+   Glassmorphism monochromatic theme
+   =================================================== */
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0a0a0f;
+  color: #e2e8f0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Animated Background Blobs ── */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobDrift 14s ease-in-out infinite alternate;
+}
+.blob-1 {
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, #334155 0%, transparent 70%);
+  top: -160px; left: -140px;
+  animation-delay: 0s;
+}
+.blob-2 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, #1e293b 0%, transparent 70%);
+  bottom: -100px; right: -100px;
+  animation-delay: -6s;
+}
+.blob-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #475569 0%, transparent 70%);
+  top: 50%; left: 55%;
+  animation-delay: -3s;
+}
+@keyframes blobDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(30px, 20px) scale(1.08); }
+  100% { transform: translate(-20px, 40px) scale(0.95); }
+}
+
+/* ── Page Center ── */
+.page-center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 2.5rem 1rem 3rem;
+}
+
+/* ── Card ── */
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 24px;
+  padding: 2.5rem 2.8rem;
+  width: 100%;
+  max-width: 620px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 24px 60px rgba(0, 0, 0, 0.60),
+    0 0 80px rgba(255, 255, 255, 0.04);
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(32px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)  scale(1); }
+}
+
+/* ── Card Header ── */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap;
+}
+.logo-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+  padding: 4px;
+  flex-shrink: 0;
+}
+.logo-title {
+  flex: 1;
+}
+.logo-title h1 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #f1f5f9;
+}
+.subtitle {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+  letter-spacing: 0.03em;
+}
+.step-badge {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── Form Groups ── */
+.form-group {
+  margin-bottom: 1.45rem;
+}
+
+/* ── Field Group (input wrapper) ── */
+.field-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.field-group input,
+.field-group select {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  color: #f1f5f9;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.85rem 3rem 0.85rem 1rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field-group input::placeholder { color: transparent; }
+.field-group input:focus,
+.field-group select:focus {
+  border-color: #94a3b8;
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.10);
+}
+
+/* Select arrow */
+.select-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.4);
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+.field-group select {
+  cursor: pointer;
+  padding-right: 2.5rem;
+}
+.field-group select option,
+.field-group select optgroup {
+  background: #111827;
+  color: #e2e8f0;
+}
+
+/* Field icon */
+.field-icon {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  cursor: default;
+  user-select: none;
+}
+.toggle-pw { cursor: pointer; }
+
+/* ── Error & Success States ── */
+.form-group.has-error .field-group input,
+.form-group.has-error .field-group select {
+  border-color: #f87171;
+  box-shadow: 0 0 0 3px rgba(248,113,113,0.18);
+}
+.form-group.has-success .field-group input,
+.form-group.has-success .field-group select {
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 3px rgba(148,163,184,0.18);
+}
+.error-msg {
+  display: block;
+  font-size: 0.78rem;
+  color: #f87171;
+  margin-top: 5px;
+  min-height: 18px;
+  padding-left: 2px;
+  transition: opacity 0.2s;
+}
+.strength-label {
+  display: block;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  padding-left: 2px;
+  min-height: 16px;
+  font-weight: 500;
+}
+
+/* ── Gender / Radio Cards ── */
+.field-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.gender-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+}
+.checkbox-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  user-select: none;
+  font-size: 0.9rem;
+}
+.checkbox-card:hover {
+  border-color: rgba(255,255,255,0.30);
+  background: rgba(255,255,255,0.07);
+}
+.checkbox-card input[type="radio"] {
+  display: none;
+}
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.checkbox-card input[type="radio"]:checked ~ .checkmark {
+  border-color: #e2e8f0;
+  background: #e2e8f0;
+}
+.checkbox-card input[type="radio"]:checked ~ .checkmark::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #111827;
+}
+.checkbox-card input[type="radio"]:checked + .checkmark + .option-icon {
+  filter: none;
+}
+.checkbox-card:has(input:checked) {
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.10);
+}
+.option-icon {
+  font-size: 1.1rem;
+}
+
+/* ── Terms Row ── */
+.terms-row { margin-top: -0.3rem; }
+.terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.86rem;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+}
+.terms-label input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: #e2e8f0;
+  cursor: pointer;
+}
+.link {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+.link:hover { text-decoration: underline; }
+
+/* ── Submit Button ── */
+.btn-submit {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 0.95rem 1.5rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #334155, #1e293b);
+  color: #f1f5f9;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+  margin-top: 0.5rem;
+}
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(255,255,255,0.12);
+}
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-arrow {
+  font-size: 1.15rem;
+  transition: transform 0.2s;
+}
+.btn-submit:hover .btn-arrow { transform: translateX(4px); }
+
+/* ── Login Hint ── */
+.login-hint {
+  text-align: center;
+  font-size: 0.84rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 1.2rem;
+}
+
+/* ── Success Message ── */
+.success-msg {
+  text-align: center;
+  padding: 2rem 1rem;
+  animation: fadeIn 0.5s ease both;
+}
+.success-icon { font-size: 3.5rem; margin-bottom: 1rem; color: #e2e8f0; }
+.success-msg h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 0.75rem;
+}
+.success-msg p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.btn-reset {
+  padding: 0.75rem 2rem;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  background: transparent;
+  color: #cbd5e1;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-reset:hover {
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+}
+.hidden { display: none !important; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .card { padding: 1.8rem 1.3rem; }
+  .card-header { flex-direction: column; align-items: flex-start; }
+  .gender-options { grid-template-columns: 1fr 1fr; }
+  .logo-title h1 { font-size: 1rem; }
+}
+@media (max-width: 380px) {
+  .gender-options { grid-template-columns: 1fr; }
+}

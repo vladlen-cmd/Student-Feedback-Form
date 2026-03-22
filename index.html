@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Symbiosis Admission Registration</title>
+  <meta name="description" content="Official Symbiosis International University Admission Registration Form for prospective students." />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Internal CSS -->
+  <style>
+    /* =============================
+       INTERNAL CSS — Component-level
+       overrides and accent variables
+       ============================= */
+    :root {
+      --brand-primary: #e2e8f0;
+      --brand-secondary: #94a3b8;
+      --brand-accent: #cbd5e1;
+      --brand-glow: rgba(226, 232, 240, 0.20);
+      --danger: #ef4444;
+      --success: #86efac;
+      --surface: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Logo text gradient — internal only */
+    .logo-title span {
+      background: linear-gradient(135deg, #e2e8f0, #94a3b8, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Floating label animation */
+    .field-group {
+      position: relative;
+    }
+    .field-group label {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      background: transparent;
+      padding: 0 4px;
+    }
+    .field-group input:focus ~ label,
+    .field-group input:not(:placeholder-shown) ~ label {
+      top: 0;
+      font-size: 0.72rem;
+      color: var(--brand-accent);
+      background: #111827;
+      border-radius: 4px;
+    }
+    .field-group select ~ label {
+      top: 0;
+      font-size: 0.72rem;
+      color: var(--brand-accent);
+      background: #111827;
+      border-radius: 4px;
+    }
+
+    /* Password strength bar — internal */
+    #strength-bar-wrap {
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.08);
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    #strength-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 2px;
+      transition: width 0.35s ease, background 0.35s ease;
+    }
+
+    /* Submit ripple effect */
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .btn-submit:active::after {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background blobs -->
+  <div class="bg-blob blob-1" aria-hidden="true"></div>
+  <div class="bg-blob blob-2" aria-hidden="true"></div>
+  <div class="bg-blob blob-3" aria-hidden="true"></div>
+
+  <main class="page-center">
+    <div class="card">
+
+      <!-- Header -->
+      <header class="card-header">
+        <div class="logo">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Symbiosis_International_University_logo.svg/200px-Symbiosis_International_University_logo.svg.png"
+               alt="Symbiosis University Logo" class="logo-img" />
+        </div>
+        <div class="logo-title">
+          <h1>Symbiosis <span>International</span> University</h1>
+          <p class="subtitle">Admission Registration Portal — 2025–26</p>
+        </div>
+        <div class="step-badge">Step 1 of 3</div>
+      </header>
+
+      <!-- Form -->
+      <form id="registrationForm" autocomplete="off" novalidate>
+
+        <!-- Name -->
+        <div class="form-group" id="group-name">
+          <div class="field-group">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder=" "
+              autocomplete="off"
+              aria-required="true"
+              aria-describedby="name-error"
+            />
+            <label for="name">Full Name *</label>
+            <span class="field-icon"><i class="fa-solid fa-user"></i></span>
+          </div>
+          <span class="error-msg" id="name-error" role="alert"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group" id="group-email">
+          <div class="field-group">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder=" "
+              autocomplete="off"
+              aria-required="true"
+              aria-describedby="email-error"
+            />
+            <label for="email">Email Address *</label>
+            <span class="field-icon"><i class="fa-solid fa-envelope"></i></span>
+          </div>
+          <span class="error-msg" id="email-error" role="alert"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group" id="group-password">
+          <div class="field-group">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder=" "
+              autocomplete="new-password"
+              aria-required="true"
+              aria-describedby="password-error"
+            />
+            <label for="password">Password *</label>
+            <span class="field-icon toggle-pw" id="togglePw" role="button" tabindex="0" title="Show/hide password"><i class="fa-solid fa-lock"></i></span>
+          </div>
+          <div id="strength-bar-wrap"><div id="strength-bar"></div></div>
+          <span class="strength-label" id="strength-label"></span>
+          <span class="error-msg" id="password-error" role="alert"></span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group" id="group-confirm">
+          <div class="field-group">
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder=" "
+              autocomplete="new-password"
+              aria-required="true"
+              aria-describedby="confirm-error"
+            />
+            <label for="confirmPassword">Confirm Password *</label>
+            <span class="field-icon toggle-pw" id="toggleCpw" role="button" tabindex="0" title="Show/hide password"><i class="fa-solid fa-lock"></i></span>
+          </div>
+          <span class="error-msg" id="confirm-error" role="alert"></span>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group" id="group-gender">
+          <p class="field-label">Gender *</p>
+          <div class="gender-options">
+            <label class="checkbox-card" for="male">
+              <input type="radio" id="male" name="gender" value="Male" />
+              <span class="checkmark"></span>
+              <span class="option-icon"><i class="fa-solid fa-mars"></i></span>
+              <span>Male</span>
+            </label>
+            <label class="checkbox-card" for="female">
+              <input type="radio" id="female" name="gender" value="Female" />
+              <span class="checkmark"></span>
+              <span class="option-icon"><i class="fa-solid fa-venus"></i></span>
+              <span>Female</span>
+            </label>
+            <label class="checkbox-card" for="other">
+              <input type="radio" id="other" name="gender" value="Other" />
+              <span class="checkmark"></span>
+              <span class="option-icon"><i class="fa-solid fa-transgender"></i></span>
+              <span>Other</span>
+            </label>
+            <label class="checkbox-card" for="prefer-not">
+              <input type="radio" id="prefer-not" name="gender" value="Prefer not to say" />
+              <span class="checkmark"></span>
+              <span class="option-icon"><i class="fa-solid fa-circle-minus"></i></span>
+              <span>Prefer not to say</span>
+            </label>
+          </div>
+          <span class="error-msg" id="gender-error" role="alert"></span>
+        </div>
+
+        <!-- Course -->
+        <div class="form-group" id="group-course">
+          <div class="field-group select-wrap">
+            <select id="course" name="course" aria-required="true" aria-describedby="course-error">
+              <option value="" disabled selected>-- Select your Programme --</option>
+              <optgroup label="Undergraduate">
+                <option value="BBA">BBA – Bachelor of Business Administration</option>
+                <option value="BCA">BCA – Bachelor of Computer Applications</option>
+                <option value="BSc-IT">B.Sc. IT – Information Technology</option>
+                <option value="BA-LLB">BA LLB – Law (5-year Integrated)</option>
+                <option value="BDes">B.Des – Design</option>
+                <option value="BBA-SCM">BBA SCM – Supply Chain Management</option>
+              </optgroup>
+              <optgroup label="Postgraduate">
+                <option value="MBA">MBA – Master of Business Administration</option>
+                <option value="MCA">MCA – Master of Computer Applications</option>
+                <option value="MSc-CS">M.Sc. CS – Computer Science</option>
+                <option value="LLM">LLM – Master of Laws</option>
+                <option value="MDes">M.Des – Design</option>
+                <option value="MPH">MPH – Public Health</option>
+              </optgroup>
+              <optgroup label="Doctoral">
+                <option value="PhD-Mgmt">Ph.D. – Management</option>
+                <option value="PhD-CS">Ph.D. – Computer Science</option>
+                <option value="PhD-Law">Ph.D. – Law</option>
+              </optgroup>
+            </select>
+            <label for="course">Programme / Course *</label>
+          </div>
+          <span class="error-msg" id="course-error" role="alert"></span>
+        </div>
+
+        <!-- Terms -->
+        <div class="form-group terms-row">
+          <label class="terms-label">
+            <input type="checkbox" id="terms" name="terms" />
+            <span>I agree to the <a href="#" class="link">Terms &amp; Conditions</a> and <a href="#" class="link">Privacy Policy</a></span>
+          </label>
+          <span class="error-msg" id="terms-error" role="alert"></span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">Register Now</span>
+          <span class="btn-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+
+        <p class="login-hint">Already have an account? <a href="#" class="link">Sign In</a></p>
+      </form>
+
+      <!-- Success Message -->
+      <div id="successMsg" class="success-msg hidden" role="status">
+        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <h2>Registration Successful!</h2>
+        <p>Welcome to Symbiosis International University. Check your email for confirmation.</p>
+        <button onclick="resetForm()" class="btn-reset">Register Another</button>
+      </div>
+
+    </div><!-- .card -->
+  </main>
+
+  <!-- External JS -->
+  <script src="validation.js"></script>
+</body>
+</html>
