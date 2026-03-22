@@ -8,24 +8,22 @@ pipeline {
     }
 
     environment {
-        PROJECT_DIR   = "${WORKSPACE}"
-        PYTHON        = 'python3'
-        REPORT_DIR    = 'reports'
-        CHROMEDRIVER  = "${WORKSPACE}/chromedriver"
+        PROJECT_DIR  = "${WORKSPACE}"
+        PYTHON       = 'python3'
+        REPORT_DIR   = 'reports'
+        CHROMEDRIVER = "${WORKSPACE}/chromedriver"
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo '── Checking out source code ──'
                 checkout scm
             }
         }
 
         stage('Setup Environment') {
             steps {
-                echo '── Installing Python dependencies ──'
                 sh """
                     ${PYTHON} -m pip install --upgrade pip --quiet
                     ${PYTHON} -m pip install selenium webdriver-manager pytest pytest-html --quiet
@@ -35,27 +33,30 @@ pipeline {
 
         stage('Verify ChromeDriver') {
             steps {
-                echo '── Checking ChromeDriver & Chrome versions ──'
                 sh """
-                    # Make local chromedriver executable if present
                     if [ -f "${CHROMEDRIVER}" ]; then
                         chmod +x "${CHROMEDRIVER}"
                         echo "Local chromedriver: \$(${CHROMEDRIVER} --version)"
                     else
-                        echo "No local chromedriver found — webdriver_manager will download one."
+                        echo "No local chromedriver found — webdriver_manager will download one at runtime."
                     fi
 
-                    # Print installed Chrome version (common paths)
-                    CHROME_BIN=\$(which google-chrome || which chromium || \
-                        echo '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-                    "\${CHROME_BIN}" --version 2>/dev/null || echo "Chrome binary not found at default path"
+                    CHROME_BIN=\$(which google-chrome 2>/dev/null || \
+                                  which chromium-browser 2>/dev/null || \
+                                  echo '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+                    "\${CHROME_BIN}" --version 2>/dev/null || echo "Chrome binary not found at default path."
                 """
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh "${PYTHON} -m py_compile test_form.py && echo 'test_form.py: OK'"
             }
         }
 
         stage('Run Selenium Tests') {
             steps {
-                echo '── Running Selenium test suite ──'
                 sh """
                     mkdir -p ${REPORT_DIR}
                     cd "${PROJECT_DIR}"
@@ -71,31 +72,22 @@ pipeline {
 
     post {
         always {
-            echo '── Publishing test report ──'
             publishHTML(target: [
-                allowMissing:         false,
+                allowMissing:          false,
                 alwaysLinkToLastBuild: true,
-                keepAll:              true,
-                reportDir:            'reports',
-                reportFiles:          'test_report.html',
-                reportName:           'Selenium Test Report'
+                keepAll:               true,
+                reportDir:             'reports',
+                reportFiles:           'test_report.html',
+                reportName:            'Selenium Test Report — Student Feedback Form'
             ])
         }
-
         success {
-            echo "✅ All tests passed on branch: ${env.BRANCH_NAME ?: 'local'}"
+            echo "All tests passed on branch: ${env.BRANCH_NAME ?: 'local'}"
         }
-
         failure {
-            echo "❌ Tests failed — check the Selenium Test Report above."
-            // Uncomment to email on failure:
-            // mail to: 'dev@symbiosis.ac.in',
-            //      subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            //      body: "See console output at ${env.BUILD_URL}"
+            echo "Tests failed — check the Selenium Test Report above."
         }
-
         cleanup {
-            echo '── Cleaning workspace ──'
             cleanWs()
         }
     }
